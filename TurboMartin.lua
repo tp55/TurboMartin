@@ -17,6 +17,12 @@ TP=200
 TRAIL=200
 SL=100
 
+-- Update 05.05.2019
+MaxDrillDown = 5000
+-- Параемтр MaxDrillDown указывает, сколько мы можем плить, набирая позу, максимум.
+-- При превышении данной нормы, происходит немедленный сброс позиции (стоплосс),
+-- и начинается поиск новой начальной точки входа.
+
 PositionList = "c:\\TurboMartin\\Position.txt" -- здесь хранятся данные о позиции.
 CurrentState = "c:\\TurboMartin\\CurrentState.txt" -- здесь хранятся данные о позиции.
 
@@ -57,6 +63,12 @@ function main()
 				LastPrice = val;
 			end
 			f:close()
+			
+			if (MaxDrillDown>Summa) then
+				DoFire(CurrentPrice, "S", NLot)
+				SetValueToFile(PositionList, "");
+				SetValueToFile(CurrentState, "MARTIN");
+			end
 			
 			if NLot>0 then
 				Srednyaya = Summa/NLot;
