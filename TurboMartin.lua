@@ -52,6 +52,7 @@ function main()
 			LastPrice = 0;
 			Summa = 0;
 			NLot = 0;
+			SummaMinus = 0;
 			
 			local PosList={};
 			while true do
@@ -59,12 +60,13 @@ function main()
 				if val == nil then break end
 				NLot=NLot+1
 				Summa = Summa+val;
+				SummaMinus = SummaMinus+(val-CurrentPrice)
 				PosList[NLot] = val;
 				LastPrice = val;
 			end
 			f:close()
 			
-			if (MaxDrillDown>Summa) then
+			if (MaxDrillDown>SummaMinus) then
 				DoFire(CurrentPrice, "S", NLot)
 				SetValueToFile(PositionList, "");
 				SetValueToFile(CurrentState, "MARTIN");
